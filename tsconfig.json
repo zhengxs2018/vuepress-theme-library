@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["esnext", "DOM.Iterable"],
+    "types": ["jest", "node", "@vuepress/client/types"]
+  },
+  "include": [
+    "packages/global.d.ts",
+    "packages/*/src",
+    "packages/*/__tests__",
+    "scripts"
+  ],
+  "exclude": ["node_modules"]
+}

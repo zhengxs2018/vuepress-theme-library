@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "composite": true,
+    "sourceMap": false,
+    "declaration": true,
+    "declarationMap": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "useDefineForClassFields": false,
+    "noImplicitAny": false,
+    "newLine": "lf",
+    "removeComments": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "lib": ["DOM", "ES2020"]
+  }
+}
