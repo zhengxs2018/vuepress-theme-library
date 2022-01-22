@@ -1,8 +1,15 @@
 <template>
-  <a class="home-feature-card" :class="{ 'is-disabled': disabled }" :href="link">
+  <a
+    class="home-feature-card"
+    :class="{ 'is-disabled': disabled }"
+    :href="link"
+    :aria-label="title"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     <div class="home-feature-card__content">
       <h3 class="home-feature-card__title">{{ title }}</h3>
-      <span class="home-feature-card__text">{{ text }}</span>
+      <span class="home-feature-card__text">{{ details }}</span>
       <div style="flex: 1 1 0%"></div>
       <p v-if="link" class="home-feature-card__link">Documentation &gt;</p>
     </div>
@@ -15,7 +22,7 @@ defineProps({
     type: String,
     required: true
   },
-  text: {
+  details: {
     type: String,
     required: true
   },

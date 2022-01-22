@@ -3,11 +3,14 @@
     class="home-solution-card"
     :class="{ 'is-disabled': disabled }"
     :href="link"
+    :aria-label="title"
+    target="_blank"
+    rel="noopener noreferrer"
   >
     <img :src="image" :alt="alt || title" />
     <div class="home-solution-card__content">
       <h3 class="home-solution-card__title">{{ title }}</h3>
-      <span class="home-solution-card__text">{{ text }}</span>
+      <span class="home-solution-card__text">{{ details }}</span>
     </div>
   </a>
 </template>
@@ -18,7 +21,7 @@ defineProps({
     type: String,
     required: true
   },
-  text: {
+  details: {
     type: String,
     required: true
   },

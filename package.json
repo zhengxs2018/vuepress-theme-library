@@ -8,8 +8,8 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json|vue|md|scss)\"",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:build-types": "typedoc --options typedoc.json packages/*",
-    "docs:release": "npm run docs:build && npm run docs:build-types && gh-pages -d ./docs/.vuepress/dist"
+    "docs:build-api": "typedoc --options typedoc.json packages/*",
+    "docs:release": "npm run docs:build && gh-pages -d ./docs/.vuepress/dist"
   },
   "workspaces": [
     "packages/**"

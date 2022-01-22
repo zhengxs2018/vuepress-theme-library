@@ -74,5 +74,20 @@ export default defineUserConfig<DefaultThemeOptions>({
       envId: 'https://twikoo-deploy.vercel.app'
     }
   },
-  plugins: [['@vuepress/search'], ['@vuepress/pwa'], ['@vuepress/pwa-popup']]
+  plugins: [
+    ['@vuepress/search'],
+    ['@vuepress/pwa'],
+    ['@vuepress/pwa-popup'],
+    [
+      '@zhengxs/vuepress-plugin-gitalk',
+      {
+        clientID: '48d71377c34c67570adf',
+        clientSecret: '819e67914e16ae4838ee3c96e8eeeb93dc5ab672',
+        repo: 'vuepress-theme-library',
+        owner: 'zhengxs2018',
+        admin: ['zhengxs2018'],
+        number: 1
+      }
+    ]
+  ]
 })

@@ -5,7 +5,7 @@ const taskLists = require('markdown-it-task-lists')
  * @param {TwikooPluginOptions} options
  * @returns {import('@vuepress/core').PluginObject}
  */
-const libraryTheme = (options) => {
+const libraryTheme = options => {
   /**
    * @type {import('@vuepress/core').Theme}
    */
@@ -24,7 +24,8 @@ const libraryTheme = (options) => {
     },
     define: {
       __ENABLE_TWIKOO_PLUGIN__: false,
-      __ENABLE_GITALK_PLUGIN__: false
+      __ENABLE_GITALK_PLUGIN__: false,
+      __ENABLE_SIDE_TOC__: options.sideToc !== false
     },
     plugins: [['@vuepress/toc']]
   }

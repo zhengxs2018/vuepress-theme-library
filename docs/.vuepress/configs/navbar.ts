@@ -4,6 +4,19 @@ export default [
     link: '/guide/'
   },
   {
+    text: '参考',
+    children: [
+      {
+        text: '主题配置',
+        link: '/reference/theme-config',
+      },
+      {
+        text: 'Frontmatter',
+        link: '/reference/frontmatter'
+      }
+    ]
+  },
+  {
     text: '更多资源',
     children: [
       {

@@ -16,18 +16,6 @@ const { logger, path } = require('@vuepress/utils')
  * @returns {import('@vuepress/core').PluginObject}
  */
 const twikooPlugin = (options, app) => {
-  // 构建时忽略 twikoo 模块
-  if (app.options.bundler.endsWith('vite')) {
-    app.options.bundlerConfig.viteOptions = require('vite').mergeConfig(
-      app.options.bundlerConfig.viteOptions,
-      {
-        optimizeDeps: {
-          include: ['twikoo']
-        }
-      }
-    )
-  }
-
   if (options.envId == null) {
     logger.warn(
       '[@zhengxs/vuepress-plugin-twikoo] envId 参数必须, 详见 https://twikoo.js.org/quick-start.html#%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2'

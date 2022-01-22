@@ -19,21 +19,23 @@ const { logger, path } = require('@vuepress/utils')
  * @returns {import('@vuepress/core').PluginObject}
  */
 const gitalkPlugin = (options, app) => {
-  // 构建时忽略 gitalk 模块
-  if (app.options.bundler.endsWith('vite')) {
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    app.options.bundlerConfig.viteOptions = require('vite').mergeConfig(app.options.bundlerConfig.viteOptions, {
-      optimizeDeps: {
-        include: ['gitalk']
-      }
-    })
-  }
-
   if (!(options.clientID && options.clientSecret)) {
     logger.warn(
-      '[@zhengxs/vuepress-plugin-gitalk] Parameters ClientID, clientSecret, repo, owner and admin. are required. See https://github.com/gitalk/gitalk#usage'
+      '[@zhengxs/vuepress-plugin-gitalk] 配置中 ClientID and clientSecret 是必须的. See https://github.com/gitalk/gitalk#usage'
     )
   }
+
+  // 构建时忽略 gitalk 模块
+  // if (app.options.bundler.endsWith('vite')) {
+  //   app.options.bundlerConfig.viteOptions = require('vite').mergeConfig(
+  //     app.options.bundlerConfig.viteOptions,
+  //     {
+  //       optimizeDeps: {
+  //         include: ['gitalk']
+  //       }
+  //     }
+  //   )
+  // }
 
   return {
     name: '@zhengxs/vuepress-plugin-gitalk',

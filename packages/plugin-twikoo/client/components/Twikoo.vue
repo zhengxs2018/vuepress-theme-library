@@ -1,7 +1,7 @@
 <template>
   <div class="twikoo-container">
     <h2>评论</h2>
-    <div id="twikoo"></div>
+    <div id="twikoo-container"></div>
   </div>
 </template>
 
@@ -10,8 +10,6 @@ import { onMounted } from 'vue'
 
 import { useRoute } from 'vue-router'
 import { usePageFrontmatter } from '@vuepress/client'
-
-// import initTwikoo from 'twikoo'
 
 // TODO 全部用 ts 重新后移走
 declare var __TWIKOO_ENV_ID__: string
@@ -60,12 +58,54 @@ onMounted(async () => {
     return
   }
 
-  // 解决
-  const initTwikoo = await import('twikoo/dist/twikoo.all.min.js')
+  // TODO 解决编译失败问题
+  function installTwikooService(): Promise<
+    (options: TwikooOptions & Record<string, any>) => Promise<void>
+  > {
+    function loadTwikoo() {
+      // @ts-ignore
+      const twikoo = window.twikoo
 
-  initTwikoo.init({
+      // @ts-ignore
+      // 非标准的浏览器兼容问题，给 element 设置 id 会导致 window 上有同名的 dom 元素
+      // Chrome 也兼容了，太闹心了
+      if (!twikoo || twikoo instanceof HTMLElement) return
+
+      // // @ts-ignore
+      return twikoo.__esModule && twikoo.default ? twikoo.default : twikoo
+    }
+
+    return new Promise((resolve, reject) => {
+      const twikoo = loadTwikoo()
+      if (twikoo) return resolve(twikoo)
+
+      // @ts-ignore
+      const doc = window.document
+      let script = doc.getElementById('twikoo-js-sdk')
+
+      if (script) {
+        // @ts-ignore
+        script.addEventListener('load', () => resolve(loadTwikoo()))
+        script.addEventListener('error', reject)
+        return
+      }
+
+      script = doc.createElement('script')
+      script.id = 'twikoo-js-sdk'
+      script.src = 'https://unpkg.com/twikoo/dist/twikoo.all.min.js'
+
+      doc.body.appendChild(script)
+      // @ts-ignore
+      script.addEventListener('load', () => resolve(loadTwikoo()))
+      script.addEventListener('error', reject)
+    })
+  }
+
+  const initTwikoo = await installTwikooService()
+
+  initTwikoo({
     ...options,
-    el: '#twikoo',
+    el: '#twikoo-container',
     onCommentLoaded() {
       emit('load')
     }

@@ -4,11 +4,11 @@
   "version": "independent",
   "command": {
     "version": {
-      "allowBranch": "main",
+      "allowBranch": ["main", "feature/*"],
       "conventionalCommits": true,
       "exact": true,
       "ignoreChanges": ["**/*.md"],
-      "message": "release %s"
+      "message": "chore(release): publish %s"
     },
     "publish": {
       "ignoreChanges": ["*.md"]

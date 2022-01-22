@@ -15,8 +15,8 @@ import { usePageData, usePageFrontmatter } from '@vuepress/client'
 const page = usePageData()
 const frontmatter = usePageFrontmatter()
 
+const enableSideToc = computed(() => __ENABLE_SIDE_TOC__ && frontmatter.value.sideToc !== false)
 const enableComment = computed(() => frontmatter.value.comment !== false)
-const enableSideToc = computed(() => frontmatter.value.toc !== false)
 
 // handle scrollBehavior with transition
 const scrollPromise = useScrollPromise()

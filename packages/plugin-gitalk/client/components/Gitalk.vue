@@ -1,6 +1,6 @@
 <template>
   <div class="gitalk-container">
-    <div id="gitalk"></div>
+    <div id="gitalk-container"></div>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import { onMounted, PropType } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePageFrontmatter } from '@vuepress/client'
 
-import Gitalk from 'gitalk'
+import type Gitalk from 'gitalk'
 
 // TODO 全部用 ts 重新后移走
 declare var __GITALK_CLIENT_ID__: string
@@ -45,7 +45,38 @@ const props = defineProps({
 const route = useRoute()
 const formatter = usePageFrontmatter<{ gitalk: Gitalk.GitalkOptions }>()
 
-onMounted(() => {
+// TODO 解决编译失败问题
+function installGitalkService() {
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    if (typeof Gitalk !== 'undefined') {
+      // @ts-ignore
+      return resolve(Gitalk)
+    }
+
+    // @ts-ignore
+    const doc = window.document
+    let script = doc.getElementById('gitalk-js-sdk')
+
+    if (script) {
+      // @ts-ignore
+      script.addEventListener('load', () => resolve(Gitalk))
+      script.addEventListener('error', reject)
+      return
+    }
+
+    script = doc.createElement('script')
+    script.id = 'gitalk-js-sdk'
+    script.src = 'https://unpkg.com/gitalk/dist/gitalk.min.js'
+
+    doc.body.appendChild(script)
+    // @ts-ignore
+    script.addEventListener('load', () => resolve(Gitalk))
+    script.addEventListener('error', reject)
+  })
+}
+
+onMounted(async () => {
   // 允许页面配置
   const userConfig: Partial<Gitalk.GitalkOptions> = formatter.value.gitalk || {}
 
@@ -88,16 +119,23 @@ onMounted(() => {
   options.flipMoveOptions = userConfig.flipMoveOptions || props.flipMoveOptions
   options.enableHotKey = userConfig.enableHotKey || props.enableHotKey
 
+  // 清空 undefined 的参数
+  // TODO 未排查那个参数的 undefined 导致的报错
   Object.keys(options).forEach(key => {
+    // @ts-ignore
     if (options[key] == null) {
+      // @ts-ignore
       delete options[key]
     }
   })
 
+  const Gitalk = await installGitalkService()
+
   // TODO 如何销毁?
+  // @ts-ignore
   const gitalk = new Gitalk(options)
 
-  gitalk.render('gitalk')
+  gitalk.render('gitalk-container')
 })
 </script>
 
